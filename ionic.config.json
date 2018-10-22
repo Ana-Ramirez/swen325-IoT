@@ -1,0 +1,7 @@
+{
+  "name": "swen325-IoT",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
