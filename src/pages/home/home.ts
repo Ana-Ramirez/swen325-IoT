@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import {MqttClientProvider} from "../../providers/mqtt-client/mqtt-client";
 
 declare var Paho : any;
 
@@ -13,13 +14,13 @@ export class HomePage {
 
   private mqttStatus: string = 'Disconnected';
   private mqttClient: any = null;
-  private message: any = '';
+  private message: String = '';
   private messageToSend: string = 'Your message';
   private topic: string = 'swen325/a3';
   private clientId: string = 'ramireana'
 
-  constructor(public navCtrl: NavController) {
-
+  constructor(public navCtrl: NavController, public mqtt: MqttClientProvider) {
+    this.connect();
   }
 
   public connect = () => {
@@ -56,10 +57,13 @@ export class HomePage {
     this.mqttStatus = 'Connected';
 
     console.log("HERE");
-    //console.log(this.mqttClient.getData());
+
 
     // subscribe
     this.mqttClient.subscribe(this.topic);
+
+
+
   }
 
   public onFailure = (responseObject) => {
@@ -74,9 +78,27 @@ export class HomePage {
   }
 
   public onMessageArrived = (message) => {
-
-    this.message = message.payloadString;
+    this.message = message.payloadString.toString();
     console.log('Received message:' + this.message);
+    this.calPercent(this.message);
+  }
+
+  public calPercent = (message) => {
+    console.log(this)
+    console.log("CALC %");
+    console.log('CALC-MESSAGE:' + message);
+
+    let sensorOutput = message;
+    const split = sensorOutput.split(",");
+
+    let room = split[1];
+    let battery = split[3];
+
+    console.log("Room: " + room);
+    console.log("Battery: " + battery);
+
+    // this.message = message.payloadString;
+    // console.log('Received message:' + this.message);
   }
 }
 
