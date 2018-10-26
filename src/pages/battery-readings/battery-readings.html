@@ -7,5 +7,15 @@
 </ion-header>
 
 <ion-content padding>
-
+  <ion-card>
+    <ion-card-header>
+      Sensor Battery Readings:
+    </ion-card-header>
+    <ion-card-content *ngIf="batteryReadingKeys.length === 0">
+      We don't have any readings yet
+    </ion-card-content>
+    <ion-card-content *ngFor="let key of batteryReadingKeys">
+      {{key}} : {{batteryReadings[key]}}
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { timer } from 'rxjs/observable/timer'
 import { Subscription } from "rxjs/Subscription";
@@ -24,15 +23,16 @@ export class MqttClientProvider {
   private clientId: string = 'ramireana';
 
   private batteryDataObj = {};
-  private lastMovementLocation: String = 'Unknown';
+  private lastMovementLocation: string = 'No motion data come through yet';
   private timerInSecs : number = 0;
+
+  private numberOfMovementsByLocation : [{}] = [{}];
 
   private timerSubscription : Subscription;
 
 
   constructor(){
     this.connect();
-
   }
 
   public connect = () => {
@@ -64,7 +64,6 @@ export class MqttClientProvider {
   }
 
   public onConnect = () => {
-    console.log('Connected');
     this.mqttStatus = 'Connected';
 
     // subscribe
@@ -72,7 +71,6 @@ export class MqttClientProvider {
   };
 
   public onFailure = (responseObject) => {
-    console.log('Failed to connect');
     this.mqttStatus = 'Failed to connect';
   };
 
@@ -84,7 +82,6 @@ export class MqttClientProvider {
 
   public onMessageArrived = (message) => {
     this.message = message.payloadString.toString();
-    console.log('Received message:' + this.message);
 
     this.getBatteryReading();
     this.getLastLocationInfo();
@@ -96,9 +93,6 @@ export class MqttClientProvider {
 
     let room = split[1];
     let battery = split[3] + '%';
-
-    console.log("Room: " + room);
-    console.log("Battery: " + battery);
 
     const temp = {
       [room]: battery
@@ -116,10 +110,22 @@ export class MqttClientProvider {
   getLastLocationInfo = () => {
     const split = this.message.split(",");
 
-    const movementDetected = parseInt(split[2]) === 1
+    const movementDetected = parseInt(split[2]) === 1;
+
+    const location = split[1];
+
+    const locationInMotionReadings = Object.keys(this.numberOfMovementsByLocation[0]).includes(location);
+    if (!locationInMotionReadings) {
+      const motionReadingLocation = {
+        [location]: 0
+      };
+      Object.assign(this.numberOfMovementsByLocation[0], motionReadingLocation);
+    }
 
     if (movementDetected) {
       this.lastMovementLocation = split[1];
+
+      this.numberOfMovementsByLocation[0][this.lastMovementLocation] = this.numberOfMovementsByLocation[0][this.lastMovementLocation] + 1;
 
       this.timerInSecs = 0;
       if (this.timerSubscription !== undefined) {this.timerSubscription.unsubscribe();}
@@ -146,4 +152,11 @@ export class MqttClientProvider {
     return this.timerInSecs
   }
 
+  getBrokerStatus() {
+    return this.mqttStatus;
+  }
+
+  getData() {
+    return this.numberOfMovementsByLocation;
+  }
 }

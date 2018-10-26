@@ -10,6 +10,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MqttClientProvider } from '../providers/mqtt-client/mqtt-client';
+import {ChartsModule} from "ng4-charts";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MqttClientProvider } from '../providers/mqtt-client/mqtt-client';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
