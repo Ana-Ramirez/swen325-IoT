@@ -3,9 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
+import { BatteryReadings } from '../pages/battery-readings/battery-readings';
+import { SeniorStatus } from '../pages/senior-status/senior-status';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -15,9 +14,8 @@ import { MqttClientProvider } from '../providers/mqtt-client/mqtt-client';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    BatteryReadings,
+    SeniorStatus,
     TabsPage
   ],
   imports: [
@@ -27,9 +25,8 @@ import { MqttClientProvider } from '../providers/mqtt-client/mqtt-client';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    BatteryReadings,
+    SeniorStatus,
     TabsPage
   ],
   providers: [

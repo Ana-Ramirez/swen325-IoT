@@ -45,7 +45,7 @@
  * <dt><b>{@link Paho.MQTT.Message}</b></dt>
  * <dd>This encapsulates the payload of the message along with various attributes
  * associated with its delivery, in particular the destination to which it has
- * been (or is about to be) sent.</dd>
+ * been (or is battery-readings to be) sent.</dd>
  * </dl>
  * <p>
  * The programming interface validates parameters passed to it, and will throw
@@ -2293,7 +2293,7 @@ var PahoMQTT = (function (global) {
 	 * @property {ArrayBuffer} payloadBytes <i>read only</i> The payload as an ArrayBuffer.
 	 * <p>
 	 * @property {string} destinationName <b>mandatory</b> The name of the destination to which the message is to be sent
-	 *                    (for messages about to be sent) or the name of the destination from which the message has been received.
+	 *                    (for messages battery-readings to be sent) or the name of the destination from which the message has been received.
 	 *                    (for messages received by the onMessage function).
 	 * <p>
 	 * @property {number} qos The Quality of Service used to deliver the message.
