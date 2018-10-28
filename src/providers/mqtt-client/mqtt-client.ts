@@ -37,16 +37,16 @@ export class MqttClientProvider {
 
   public connect = () => {
     this.mqttStatus = 'Connecting...';
-    this.mqttClient = new Paho.MQTT.Client('m15.cloudmqtt.com', 30928, '/mqtt', this.clientId);
-    //this.mqttClient = new Paho.MQTT.Client('barretts.ecs.vuw.ac.nz', 8883, '/mqtt', this.clientId);
+    //this.mqttClient = new Paho.MQTT.Client('m15.cloudmqtt.com', 30928, '/mqtt', this.clientId);
+    this.mqttClient = new Paho.MQTT.Client('barretts.ecs.vuw.ac.nz', 8883, '/mqtt', this.clientId);
 
     // set callback handlers
     this.mqttClient.onConnectionLost = this.onConnectionLost;
     this.mqttClient.onMessageArrived = this.onMessageArrived;
 
     // connect the client
-    this.mqttClient.connect({timeout:10, userName:'zlkeyfjr', password:'__70vczj02nW', useSSL:true, onSuccess:this.onConnect, onFailure:this.onFailure});
-    //this.mqttClient.connect({timeout:10, useSSL:false, onSuccess:this.onConnect, onFailure:this.onFailure});
+    //this.mqttClient.connect({timeout:10, userName:'zlkeyfjr', password:'__70vczj02nW', useSSL:true, onSuccess:this.onConnect, onFailure:this.onFailure});
+    this.mqttClient.connect({timeout:10, useSSL:false, onSuccess:this.onConnect, onFailure:this.onFailure});
   };
 
   public disconnect () {
@@ -88,6 +88,7 @@ export class MqttClientProvider {
   };
 
   public getBatteryReading = () => {
+    console.log(this.message);
     let sensorOutput = this.message;
     const split = sensorOutput.split(",");
 
